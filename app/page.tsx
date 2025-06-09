@@ -9,9 +9,11 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { signIn } from "next-auth/react";
-import { SignInResponse } from "next-auth/react";
 
 export default function Page() {
+    const handleLogin = async () => {
+        await signIn("spotify", { callbackUrl: "https://spotitiy.vercel.app" });
+    };
 
     return (
         <Card className="m-auto max-w-sm">
@@ -22,7 +24,11 @@ export default function Page() {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <Button type="submit" className="w-full" onClick={ (): Promise<SignInResponse | undefined> => signIn('spotify', { callbackUrl: '/' }) }>
+                <Button 
+                    type="submit" 
+                    className="w-full" 
+                    onClick={handleLogin}
+                >
                     Login
                 </Button>
             </CardContent>
