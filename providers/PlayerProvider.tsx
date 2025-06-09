@@ -2,6 +2,24 @@
 
 import React, { createContext, useEffect } from "react";
 
+// Tambahkan deklarasi tipe untuk Spotify SDK
+declare global {
+  interface Window {
+    Spotify: any;
+    onSpotifyWebPlaybackSDKReady: () => void;
+  }
+}
+
+// Deklarasi namespace Spotify untuk TypeScript
+namespace Spotify {
+  export interface Player {
+    connect(): Promise<boolean>;
+    disconnect(): void;
+    addListener(event: string, callback: (data: any) => void): void;
+    removeListener(event: string, callback: (data: any) => void): void;
+  }
+}
+
 export const PlayerContext = createContext<Spotify.Player | undefined>(undefined);
 
 export default function PlayerProvider({ children, token }: { children: React.ReactNode; token: string; }) {
@@ -17,7 +35,7 @@ export default function PlayerProvider({ children, token }: { children: React.Re
             console.log("player ready");
             setPlayer(player);
             if (!player) {
-                const player = new Spotify.Player({
+                const player = new window.Spotify.Player({
                     name: "Spotifyer",
                     getOAuthToken: (cb) => {
                         cb(token);
