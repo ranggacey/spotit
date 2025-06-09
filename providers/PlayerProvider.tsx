@@ -24,6 +24,14 @@ namespace Spotify {
     getOAuthToken: (callback: (token: string) => void) => void;
     volume?: number;
   }
+
+  export interface ErrorEvent {
+    message: string;
+  }
+
+  export interface ReadyEvent {
+    device_id: string;
+  }
 }
 
 export const PlayerContext = createContext<Spotify.Player | undefined>(undefined);
@@ -49,28 +57,28 @@ export default function PlayerProvider({ children, token }: { children: React.Re
                     volume: 0.5,
                 });
                 // Error handling
-                player.addListener("initialization_error", ({ message }) => {
+                player.addListener("initialization_error", ({ message }: Spotify.ErrorEvent) => {
                     console.error(message);
                 });
-                player.addListener("authentication_error", ({ message }) => {
+                player.addListener("authentication_error", ({ message }: Spotify.ErrorEvent) => {
                     console.error(message);
                 });
-                player.addListener("account_error", ({ message }) => {
+                player.addListener("account_error", ({ message }: Spotify.ErrorEvent) => {
                     console.error(message);
                 });
-                player.addListener("playback_error", ({ message }) => {
+                player.addListener("playback_error", ({ message }: Spotify.ErrorEvent) => {
                     console.error(message);
                 });
                 // Playback status updates
-                player.addListener("player_state_changed", (state) => {
+                player.addListener("player_state_changed", (state: any) => {
                     console.log(state);
                 });
                 // Ready
-                player.addListener("ready", ({ device_id }) => {
+                player.addListener("ready", ({ device_id }: Spotify.ReadyEvent) => {
                     console.log("Ready with Device ID", device_id);
                 });
                 // Not Ready
-                player.addListener("not_ready", ({ device_id }) => {
+                player.addListener("not_ready", ({ device_id }: Spotify.ReadyEvent) => {
                     console.log("Device ID has gone offline", device_id);
                 });
                 // Connect to the player!
