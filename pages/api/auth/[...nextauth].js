@@ -45,7 +45,7 @@ export const authOptions ={
             clientId: process.env.SPOTIFY_CLIENT_ID,
             clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
             authorization: LOGIN_URL,
-            callbackUrl: process.env.NEXTAUTH_URL || 'http://localhost:3000',
+            callbackUrl: process.env.NEXTAUTH_URL || 'https://spotitiy.vercel.app/api/auth/callback/spotify',
         }),
     ],
     secret: process.env.JWT_SECRET,
