@@ -18,6 +18,12 @@ namespace Spotify {
     addListener(event: string, callback: (data: any) => void): void;
     removeListener(event: string, callback: (data: any) => void): void;
   }
+
+  export interface PlayerInit {
+    name: string;
+    getOAuthToken: (callback: (token: string) => void) => void;
+    volume?: number;
+  }
 }
 
 export const PlayerContext = createContext<Spotify.Player | undefined>(undefined);
@@ -37,7 +43,7 @@ export default function PlayerProvider({ children, token }: { children: React.Re
             if (!player) {
                 const player = new window.Spotify.Player({
                     name: "Spotifyer",
-                    getOAuthToken: (cb) => {
+                    getOAuthToken: (cb: (token: string) => void) => {
                         cb(token);
                     },
                     volume: 0.5,
