@@ -45,12 +45,12 @@ export const authOptions ={
             clientId: process.env.SPOTIFY_CLIENT_ID,
             clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
             authorization: LOGIN_URL,
-            callbackUrl: process.env.NEXTAUTH_URL || 'https://spotitiy.vercel.app/api/auth/callback/spotify',
+            callbackUrl: 'https://spotitiy.vercel.app',
         }),
     ],
     secret: process.env.JWT_SECRET,
     pages: {
-        signIn: '/login',
+        signIn: '/',
     },
     callbacks: {
         async jwt({ token, account }) {
